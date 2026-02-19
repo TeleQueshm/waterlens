@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Water Quality Analysis | visionOS</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --vision-blue: #007AFF;
+      --vision-green: #34C759;
+      --vision-red: #FF3B30;
+    }
+
+    body {
+      /* Vision Pro environment background */
+      background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%), 
+                  url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&q=80&w=2070');
+      background-blend-mode: overlay;
+      background-size: cover;
+      background-attachment: fixed;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+    }
+
+    /* The main spatial container */
+    .spatial-container {
+      perspective: 1200px;
+      width: 100%;
+      max-width: 900px;
+      padding: 20px;
+    }
+
+    .vp-glass-panel {
+      background: rgba(45, 45, 45, 0.4);
+      backdrop-filter: blur(35px) saturate(150%);
+      -webkit-backdrop-filter: blur(35px) saturate(150%);
+      border: 1px solid var(--glass-border);
+      border-radius: 40px; /* Signature Apple rounded corners */
+      padding: 40px;
+      box-shadow: 0 50px 100px rgba(0,0,0,0.5), 
+                  inset 0 0 0 1px rgba(255,255,255,0.1);
+      transition: transform 0.3s ease-out;
+    }
+
+    /* Hover effect mimicking eye tracking / focal movement */
+    .vp-glass-panel:hover {
+      transform: scale(1.005) translateY(-5px);
+    }
+
+    .vp-header h2 {
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      margin-bottom: 30px;
+      opacity: 0.95;
+    }
+
+    /* Result Card Styling */
+    .status-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 24px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255,255,255,0.05);
+      text-align: center;
+    }
+
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+
+    .safe { background: rgba(52, 199, 89, 0.2); color: #34C759; border: 1px solid #34C759; }
+    .unsafe { background: rgba(255, 59, 48, 0.2); color: #FF3B30; border: 1px solid #FF3B30; }
+
+    /* Data Grid */
+    .data-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 40px;
+    }
+
+    .data-tile {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 15px 20px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+    }
+
+    .data-tile:hover {
+      background: rgba(255, 255, 255, 0.15); /* visionOS focal glow */
+    }
+
+    .label {
+      display: block;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 4px;
+    }
+
+    .value {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* Button Style: visionOS Capsule */
+    .btn-vision {
+      background: #ffffff;
+      color: #000;
+      border-radius: 100px;
+      padding: 12px 35px;
+      font-weight: 600;
+      border: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      justify-content: center;
+      width: auto;
+      margin: 0 auto;
+    }
+
+    .btn-vision:hover {
+      background: rgba(255, 255, 255, 0.9);
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+
+    @media (max-width: 600px) {
+      .data-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="spatial-container">
+    <div class="vp-glass-panel">
+      
+      <div class="vp-header text-center">
+        <h2><i class="fa-solid fa-droplet text-info me-2"></i> Analysis Result</h2>
+      </div>
+      
+      <div class="status-card">
+        {% if prediction == 1 %}
+          <div class="status-indicator safe"><i class="fa-solid fa-check"></i></div>
+          <h4 style="color: var(--vision-green)">Drinkable</h4>
+          <p class="text-white-50 m-0">Water parameters meet safety standards.</p>
+        {% else %}
+          <div class="status-indicator unsafe"><i class="fa-solid fa-xmark"></i></div>
+          <h4 style="color: var(--vision-red)">Not Recommended</h4>
+          <p class="text-white-50 m-0">Contaminants detected above safety threshold.</p>
+        {% endif %}
+      </div>
+
+      <div class="data-grid">
+        <div class="data-tile">
+          <span class="label">pH Level</span>
+          <span class="value">{{ ph }}</span>
+        </div>
+        <div class="data-tile">
+          <span class="label">Hardness</span>
+          <span class="value">{{ Hardness }}</span>
+        </div>
+        <div class="data-tile">
+          <span class="label">Solids</span>
+          <span class="value">{{ Solids }}</span>
+        </div>
+        <div class="data-tile">
+          <span class="label">Chloramines</span>
+          <span class="value">{{ Chloramines }}</span>
+        </div>
+        <div class="data-tile">
+          <span class="label">Sulfate</span>
+          <span class="value">{{ Sulfate }}</span>
+        </div>
+        <div class="data-tile">
+          <span class="label">Conductivity</span>
+          <span class="value">{{ Conductivity }}</span>
+        </div>
+        <div class="data-tile">
+          <span class="label">Organic Carbon</span>
+          <span class="value">{{ Organic_carbon }}</span>
+        </div>
+        <div class="data-tile">
+          <span class="label">Turbidity</span>
+          <span class="value">{{ Turbidity }}</span>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <a href="/" class="btn-vision">
+          <i class="fa-solid fa-arrow-rotate-left me-2"></i> New Analysis
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

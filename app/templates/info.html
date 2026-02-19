@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About WaterLens & Vivastar | visionOS</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --vp-glass: rgba(45, 45, 45, 0.4);
+      --vp-platter: rgba(255, 255, 255, 0.08);
+      --vp-border: rgba(255, 255, 255, 0.15);
+      --accent-blue: #00e1ff;
+    }
+
+    body {
+      background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%), 
+                  url('../static/8700d444e39a9addaf1db2f663b02272.jpg');
+      background-blend-mode: overlay;
+      background-size: cover;
+      background-attachment: fixed;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      min-height: 100vh;
+      padding: 10px 0;
+    }
+
+    /* Main Window */
+    .vision-window {
+      background: var(--vp-glass);
+      backdrop-filter: blur(40px) saturate(160%);
+      -webkit-backdrop-filter: blur(40px) saturate(160%);
+      border: 1px solid var(--vp-border);
+      border-radius: 44px;
+      overflow: hidden;
+      box-shadow: 0 50px 100px rgba(0,0,0,0.6);
+      max-width: 100%;
+      margin: auto;
+    }
+
+    /* Platter Sections (Cards inside the glass) */
+    .platter {
+      background: var(--vp-platter);
+      border-radius: 28px;
+      padding: 30px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: background 0.3s ease;
+    }
+
+    .platter:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    h1, h2, h4 {
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      color: var(--accent-blue);
+    }
+
+    /* Feature List Styling */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+    }
+
+    .feature-list li {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 12px 18px;
+      border-radius: 16px;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .feature-list i {
+      color: var(--accent-blue);
+      margin-right: 12px;
+      font-size: 0.8rem;
+    }
+
+    /* Tech Table */
+    .tech-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 8px;
+    }
+
+    .tech-table tr td {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 12px 20px;
+    }
+
+    .tech-table tr td:first-child {
+      border-radius: 12px 0 0 12px;
+      font-weight: 600;
+      width: 35%;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .tech-table tr td:last-child {
+      border-radius: 0 12px 12px 0;
+      color: var(--accent-blue);
+    }
+
+    /* Vision Buttons */
+    .btn-vision {
+      background: #ffffff;
+      color: #000;
+      border-radius: 100px;
+      padding: 10px 24px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .btn-vision:hover {
+      transform: scale(1.05);
+      background: #f0f0f0;
+    }
+
+    .btn-outline-vision {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-radius: 100px;
+      padding: 10px 24px;
+      font-weight: 500;
+      text-decoration: none;
+      margin-left: 10px;
+      transition: 0.2s;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-outline-vision:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    .hero-section {
+      padding: 60px 40px;
+      text-align: center;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.05), transparent);
+    }
+
+    .content-padding {
+      padding: 0 40px 40px 40px;
+    }
+
+    @media (max-width: 768px) {
+      .hero-section, .content-padding { padding: 20px; }
+      .vision-window { border-radius: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="vision-window">
+    
+    <div class="hero-section">
+      <h1 class="display-4"><i class="fa-solid fa-droplet me-3" style="color: var(--accent-blue)"></i>WaterLens</h1>
+      <p class="lead opacity-75">Intelligence behind every drop.</p>
+      <div class="mt-4">
+        <a href="/" class="btn-vision"><i class="fa-solid fa-flask me-2"></i>Launch App</a>
+        <a href="https://github.com/vivastarco" class="btn-outline-vision" target="_blank"><i class="fab fa-github me-2"></i>GitHub</a>
+      </div>
+    </div>
+
+    <div class="content-padding">
+      <div class="platter">
+        <h2 class="section-title"><i class="fa-solid fa-circle-info me-2"></i> Discovery</h2>
+        <p class="opacity-75">WaterLens is an AI-powered spatial tool that predicts water potability using advanced machine learning. Developed by <strong>Koosha Yeganeh</strong>, it bridges the gap between complex laboratory data and instant, actionable safety insights.</p>
+        
+        <h4 class="mt-4 mb-3" style="font-size: 1.1rem; opacity: 0.9;">Core Capabilities</h4>
+        <ul class="feature-list">
+          <li><i class="fa-solid fa-microscope"></i> 9 Critical Parameter Analysis</li>
+          <li><i class="fa-solid fa-brain"></i> Neural Prediction Engine</li>
+          <li><i class="fa-solid fa-bolt"></i> Zero-Latency Assessment</li>
+          <li><i class="fa-solid fa-eye"></i> Spatial UI Architecture</li>
+          <li><i class="fa-solid fa-mobile-screen"></i> Cross-Platform Fluidity</li>
+          <li><i class="fa-solid fa-file-export"></i> Precision Reporting</li>
+        </ul>
+      </div>
+
+      <div class="platter">
+        <h2 class="section-title"><i class="fa-solid fa-layer-group me-2"></i> Architecture</h2>
+        <table class="tech-table">
+          <tr><td>Frontend</td><td>SF Pro, Glassmorphism CSS, JS</td></tr>
+          <tr><td>Backend</td><td>Python 3.11 / Flask</td></tr>
+          <tr><td>Intelligence</td><td>Scikit-learn / Random Forest Model</td></tr>
+          <tr><td>Design Language</td><td>visionOS Spatial Design</td></tr>
+        </table>
+      </div>
+
+      <div class="row">
+        <div class="col-md-7">
+          <div class="platter h-100">
+            <h2 class="section-title"><i class="fa-solid fa-compass me-2"></i> Vivastar</h2>
+            <p class="small opacity-75">The innovation lab of Koosha Yeganeh, dedicated to software that feels like the future. We focus on ML integration and high-fidelity user experiences.</p>
+            <div class="mt-3">
+              <a href="https://vivastar.ir" class="text-info text-decoration-none small" target="_blank">vivastar.ir <i class="fa-solid fa-arrow-up-right-from-square ms-1" style="font-size: 0.7rem;"></i></a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-5">
+          <div class="platter h-100">
+            <h2 class="section-title"><i class="fa-solid fa-rocket me-2"></i> Roadmap</h2>
+            <ul class="list-unstyled small opacity-75">
+              <li class="mb-2"><i class="fa-solid fa-plus me-2"></i> Native visionOS App</li>
+              <li class="mb-2"><i class="fa-solid fa-plus me-2"></i> Geospatial Mapping</li>
+              <li><i class="fa-solid fa-plus me-2"></i> IoT Sensor Sync</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-5">
+        <p class="small opacity-50">Developed with ❤️ for a safer world.</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="mailto:support@vivastar.ir" class="btn-outline-vision"><i class="fa-solid fa-envelope me-2"></i>Contact</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

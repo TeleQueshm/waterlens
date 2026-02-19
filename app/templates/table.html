@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vivaSTAR - Sample Data</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --glass-bg: rgba(45, 45, 45, 0.4);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --inner-card: rgba(255, 255, 255, 0.08);
+      --accent: #0dcaf0;
+    }
+
+    body {
+      background: url('../static/wallpaperbetter(1).jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      color: white;
+      overflow: hidden;
+    }
+
+    /* Main Window */
+    .vp-window {
+      display: flex;
+      width: 90%;
+      max-width: 95%;
+      height: 85vh;
+      background: var(--glass-bg);
+      backdrop-filter: blur(50px) saturate(150%);
+      -webkit-backdrop-filter: blur(50px) saturate(150%);
+      border-radius: 50px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+      position: relative;
+      padding: 10px;
+    }
+
+    /* Sidebar */
+    .vp-sidebar {
+      width: 260px;
+      padding: 30px 20px;
+      border-right: 1px solid var(--glass-border);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .vp-sidebar h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 25px;
+    }
+
+    /* Main Content Area */
+    .vp-main-panel {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    /* visionOS Search Bar */
+    .search-box {
+      position: relative;
+      width: 320px;
+    }
+
+    .search-box input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 10px 15px 10px 40px;
+      color: white;
+      font-size: 0.9rem;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Table Styling */
+    .table-container {
+      flex: 1;
+      overflow-y: auto;
+      background: var(--inner-card);
+      border-radius: 24px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .data-table thead {
+      position: sticky;
+      top: 0;
+      background: rgba(60, 60, 60, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 5;
+    }
+
+    .data-table th {
+      padding: 15px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .data-table td {
+      padding: 12px 10px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .data-table tbody tr:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Badges */
+    .potability-badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .potability-safe { background: rgba(52, 199, 89, 0.2); color: #34c759; border: 1px solid rgba(52, 199, 89, 0.3); }
+    .potability-unsafe { background: rgba(255, 59, 48, 0.2); color: #ff3b30; border: 1px solid rgba(255, 59, 48, 0.3); }
+    .missing-data { color: rgba(255, 255, 255, 0.2); }
+
+    /* Bottom Ornament */
+    .vp-ornament {
+      position: absolute;
+      bottom: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(40, 40, 40, 0.8);
+      backdrop-filter: blur(20px);
+      padding: 8px 25px;
+      border-radius: 40px;
+      display: flex;
+      gap: 30px;
+      border: 1px solid rgba(255,255,255,0.1);
+      z-index: 10;
+    }
+
+    .ornament-item {
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      font-size: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .ornament-item.active { color: white; }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+  </style>
+</head>
+<body>
+
+  <div class="vp-window">
+    <div class="vp-sidebar">
+      <h2>Database</h2>
+      <div style="background: var(--inner-card); border-radius: 15px; padding: 15px;">
+        <div class="small opacity-50 mb-1">Source:</div>
+        <div class="fw-bold">Global Water Index</div>
+      </div>
+      <div class="mt-4 opacity-50 small ps-2">Last Updated: Feb 2026</div>
+    </div>
+
+    <main class="vp-main-panel">
+      <div class="header-row">
+        <h4 class="mb-0">Sample Quality Data</h4>
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Filter parameters...">
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>pH</th>
+              <th>Hardness</th>
+              <th>Solids</th>
+              <th>Chloramines</th>
+              <th>Sulfate</th>
+              <th>Conductivity</th>
+              <th>Carbon</th>
+              <th>THM</th>
+              <th>Turbidity</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="missing-data">—</td>
+              <td>204.89</td>
+              <td>20791</td>
+              <td>7.30</td>
+              <td>368.5</td>
+              <td>564.3</td>
+              <td>10.37</td>
+              <td>86.99</td>
+              <td>2.96</td>
+              <td><span class="potability-badge potability-unsafe">Unsafe</span></td>
+            </tr>
+            <tr>
+              <td>3.71</td>
+              <td>129.42</td>
+              <td>18630</td>
+              <td>6.63</td>
+              <td class="missing-data">—</td>
+              <td>592.8</td>
+              <td>15.18</td>
+              <td>56.32</td>
+              <td>4.50</td>
+              <td><span class="potability-badge potability-unsafe">Unsafe</span></td>
+            </tr>
+            <tr>
+              <td>8.09</td>
+              <td>224.23</td>
+              <td>19909</td>
+              <td>9.27</td>
+              <td class="missing-data">—</td>
+              <td>418.6</td>
+              <td>16.86</td>
+              <td>66.42</td>
+              <td>3.05</td>
+              <td><span class="potability-badge potability-unsafe">Unsafe</span></td>
+            </tr>
+            <tr>
+                <td>7.17</td>
+                <td>203.40</td>
+                <td>20401</td>
+                <td>7.68</td>
+                <td>287.0</td>
+                <td>315.5</td>
+                <td>14.53</td>
+                <td>74.40</td>
+                <td>3.93</td>
+                <td><span class="potability-badge potability-safe">Safe</span></td>
+              </tr>
+              <tr>
+                <td>7.65</td>
+                <td>236.96</td>
+                <td>14245</td>
+                <td>6.28</td>
+                <td>373.1</td>
+                <td>416.6</td>
+                <td>10.46</td>
+                <td>85.85</td>
+                <td>2.43</td>
+                <td><span class="potability-badge potability-safe">Safe</span></td>
+              </tr>
+
+<tr>
+  <td>6.89</td>
+  <td>178.23</td>
+  <td>18765</td>
+  <td>8.12</td>
+  <td>312.4</td>
+  <td>345.8</td>
+  <td>12.87</td>
+  <td>68.32</td>
+  <td>3.21</td>
+  <td><span class="potability-badge potability-safe">Safe</span></td>
+</tr>
+<tr>
+  <td>8.03</td>
+  <td>312.56</td>
+  <td>22134</td>
+  <td>5.47</td>
+  <td>258.9</td>
+  <td>289.3</td>
+  <td>9.64</td>
+  <td>92.17</td>
+  <td>4.78</td>
+  <td><span class="potability-badge potability-unsafe">Unsafe</span></td>
+</tr>
+<tr>
+  <td>7.42</td>
+  <td>145.89</td>
+  <td>15892</td>
+  <td>7.83</td>
+  <td>425.6</td>
+  <td>467.2</td>
+  <td>16.31</td>
+  <td>55.64</td>
+  <td>2.15</td>
+  <td><span class="potability-badge potability-safe">Safe</span></td>
+</tr>
+<tr>
+  <td>6.51</td>
+  <td>423.71</td>
+  <td>25678</td>
+  <td>4.96</td>
+  <td>189.3</td>
+  <td>214.7</td>
+  <td>7.29</td>
+  <td>78.95</td>
+  <td>5.34</td>
+  <td><span class="potability-badge potability-unsafe">Unsafe</span></td>
+</tr>
+<tr>
+  <td>8.34</td>
+  <td>267.45</td>
+  <td>11234</td>
+  <td>9.21</td>
+  <td>341.7</td>
+  <td>378.4</td>
+  <td>18.42</td>
+  <td>63.28</td>
+  <td>3.67</td>
+  <td><span class="potability-badge potability-safe">Safe</span></td>
+</tr>
+<tr>
+  <td>7.08</td>
+  <td>198.62</td>
+  <td>19876</td>
+  <td>6.75</td>
+  <td>287.5</td>
+  <td>319.9</td>
+  <td>11.23</td>
+  <td>81.43</td>
+  <td>2.89</td>
+  <td><span class="potability-badge potability-safe">Safe</span></td>
+</tr>
+<tr>
+  <td>8.57</td>
+  <td>87.34</td>
+  <td>28901</td>
+  <td>5.12</td>
+  <td>401.2</td>
+  <td>445.6</td>
+  <td>8.76</td>
+  <td>71.56</td>
+  <td>4.42</td>
+  <td><span class="potability-badge potability-unsafe">Unsafe</span></td>
+</tr>
+<tr>
+  <td>6.23</td>
+  <td>354.78</td>
+  <td>13456</td>
+  <td>8.98</td>
+  <td>236.8</td>
+  <td>267.3</td>
+  <td>15.67</td>
+  <td>88.74</td>
+  <td>3.08</td>
+  <td><span class="potability-badge potability-safe">Safe</span></td>
+</tr>
+<tr>
+  <td>7.86</td>
+  <td>221.43</td>
+  <td>23456</td>
+  <td>7.34</td>
+  <td>389.4</td>
+  <td>431.5</td>
+  <td>13.25</td>
+  <td>59.87</td>
+  <td>4.95</td>
+  <td><span class="potability-badge potability-unsafe">Unsafe</span></td>
+</tr>
+<tr>
+  <td>8.19</td>
+  <td>165.27</td>
+  <td>16789</td>
+  <td>6.53</td>
+  <td>267.8</td>
+  <td>298.2</td>
+  <td>10.98</td>
+  <td>94.21</td>
+  <td>2.56</td>
+  <td><span class="potability-badge potability-safe">Safe</span></td>
+</tr>
+              </tbody>
+        </table>
+      </div>
+    </main>
+
+    <div class="vp-ornament">
+      <a href="/" class="ornament-item">
+        <i class="fas fa-vial"></i>
+        <span>Analyze</span>
+      </a>
+      <a href="/table" class="ornament-item active">
+        <i class="fas fa-database"></i>
+        <span>Data</span>
+      </a>
+      <a href="/info" class="ornament-item">
+        <i class="fas fa-circle-info"></i>
+        <span>Info</span>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+      const searchText = this.value.toLowerCase();
+      const rows = document.querySelectorAll('.data-table tbody tr');
+      rows.forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(searchText) ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
