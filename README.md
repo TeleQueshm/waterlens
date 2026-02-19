@@ -118,9 +118,9 @@ The application features a modern, responsive web interface with:
 
 ### Screenshots
 
-| Input Form | Results Display |
+| Input Form | Table Sample Data|
 |------------|-----------------|
-| ![Input Form](1.png) | ![Results Page](2.png) |
+| ![Input Form](1.png) | ![table sample Page](2.png) |
 
 
 
