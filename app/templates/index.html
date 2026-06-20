@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سامانه هوشمند پایش کیفیت آب | داشبورد مدیریتی</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        @import url('https://v1.fontapi.ir/css/Vazir');
+        body {
+            font-family: 'Vazir', sans-serif;
+            background-image: url("../static/wallpaperbetter(1).jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+    </style>
+</head>
+<body class="min-h-screen text-slate-100 flex items-center justify-center p-4 md:p-8">
+
+    <div class="w-full max-w-5xl bg-slate-900/40 rounded-3xl shadow-2xl p-6 md:p-10 glass-card">
+        
+        <header class="flex flex-col md:flex-row justify-between items-center border-b border-slate-700/50 pb-6 mb-8 gap-4">
+            <div class="flex items-center gap-4">
+                <div class="p-3 bg-blue-500/10 text-blue-400 rounded-2xl border border-blue-500/20">
+                    <span class="material-icons-round text-3xl">opacity</span>
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">سامانه هوشمند پایش تصفیه‌خانه</h1>
+                    <p class="text-xs md:text-sm text-slate-400 mt-1" style="color:white;">بررسی آنی و پیش‌بینی قابلیت شرب آب با یادگیری ماشین</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 bg-slate-800/80 px-4 py-2 rounded-full border border-slate-700/60 text-xs text-slate-300">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                اتصال آنی به مدل هوش مصنوعی (فعال)
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <div class="lg:col-span-7">
+                <h2 class="text-lg font-semibold text-slate-200 mb-6 flex items-center gap-2">
+                    <span class="material-icons-round text-blue-400 text-sm">tune</span>
+                    پارامترهای سنجش‌شده خروجی
+                </h2>
+                
+                <form action="/predict" method="post" class="space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-medium text-slate-400" style="color:white;">اسیدیته (pH)</label>
+                            <input type="number" step="any" name="ph" required value="7.2" class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-200 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-left" dir="ltr">
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-medium text-slate-400" style="color:white;">سختی آب (Hardness)</label>
+                            <input type="number" step="any" name="Hardness" required value="204.8" class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-200 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-left" dir="ltr">
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-medium text-slate-400" style="color:white;">مواد جامد محلول (Solids)</label>
+                            <input type="number" step="any" name="Solids" required value="20791.3" class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-200 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-left" dir="ltr">
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-medium text-slate-400" style="color:white;">کلرآمین (Chloramines)</label>
+                            <input type="number" step="any" name="Chloramines" required value="7.3" class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-200 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-left" dir="ltr">
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-medium text-slate-400" style="color:white;">سولفات (Sulfate)</label>
+                            <input type="number" step="any" name="Sulfate" required value="368.5" class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-200 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-left" dir="ltr">
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-medium text-slate-400" style="color:white;">هدایت الکتریکی (Conductivity)</label>
+                            <input type="number" step="any" name="Conductivity" required value="564.3" class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-200 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-left" dir="ltr">
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-medium text-slate-400" style="color:white;">کربن ارگانیک (Organic Carbon)</label>
+                            <input type="number" step="any" name="Organic_carbon" required value="10.3" class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-200 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-left" dir="ltr">
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-medium text-slate-400" style="color:white;">تری‌هالومتان‌ها (Trihalomethanes)</label>
+                            <input type="number" step="any" name="Trihalomethanes" required value="86.9" class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-200 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-left" dir="ltr">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-medium text-slate-400" style="color:white;" >کدورت آب (Turbidity)</label>
+                        <input type="number" step="any" name="Turbidity" required value="2.9" class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-200 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-left" dir="ltr">
+                    </div>
+
+                    <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg shadow-blue-500/20 transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 mt-6 cursor-pointer">
+                        <span class="material-icons-round text-xl">analytics</span>
+                        شروع تحلیل و پردازش داده‌ها
+                    </button>
+                </form>
+            </div>
+
+            <div class="lg:col-span-5 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-lg font-semibold text-slate-200 mb-6 flex items-center gap-2">
+                        <span class="material-icons-round text-blue-400 text-sm">assignment_turned_in</span>
+                        گزارش و نتیجه ارزیابی هوشمند
+                    </h2>
+
+                    {% if prediction_text %}
+                        {% if status_class == 'safe' %}
+                            <div class="rounded-2xl p-6 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 space-y-4 animate-fade-in">
+                                <div class="flex items-center gap-3">
+                                    <span class="material-icons-round text-4xl">check_circle</span>
+                                    <div>
+                                        <h3 class="font-bold text-lg text-emerald-300">تایید کیفیت آب</h3>
+                                        <p class="text-xs text-emerald-400/80 mt-0.5">آب خروجی تصفیه‌خانه کاملاً بهداشتی است.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-emerald-950/40 p-4 rounded-xl text-center font-bold text-lg tracking-wide border border-emerald-500/10">
+                                    {{ prediction_text }}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="rounded-2xl p-6 bg-rose-500/10 border border-rose-500/30 text-rose-400 space-y-4 animate-fade-in">
+                                <div class="flex items-center gap-3">
+                                    <span class="material-icons-round text-4xl">gpp_bad</span>
+                                    <div>
+                                        <h3 class="font-bold text-lg text-rose-300">هشدار آلودگی!</h3>
+                                        <p class="text-xs text-rose-400/80 mt-0.5">شاخص‌ها خارج از محدوده استاندارد شرب هستند.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-rose-950/40 p-4 rounded-xl text-center font-bold text-lg tracking-wide border border-rose-500/10">
+                                    {{ prediction_text }}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="rounded-2xl p-8 bg-slate-800/40 border border-dashed border-slate-700 flex flex-col items-center justify-center text-center h-48">
+                            <span class="material-icons-round text-4xl text-slate-500 mb-3 animate-pulse">insights</span>
+                            <p class="text-sm text-slate-400">در انتظار ورود داده‌ها...</p>
+                            <p class="text-xs text-slate-500 mt-1">پارامترها را وارد کرده و دکمه تحلیل را بزنید.</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mt-8 bg-slate-800/30 p-5 rounded-2xl border border-slate-700/50 space-y-3">
+                    <h4 class="text-xs font-semibold text-slate-300 flex items-center gap-1">
+                        <span class="material-icons-round text-xs text-amber-400">info</span>
+                        محدوده استاندارد پارامترهای کلیدی (WHO)
+                    </h4>
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-[11px] text-slate-400">
+                        <div class="flex justify-between border-b border-slate-700/40 pb-1" style="color:cyan;"><span>اسیدیته (pH):</span> <span class="text-slate-300" dir="ltr">6.5 - 8.5</span></div>
+                        <div class="flex justify-between border-b border-slate-700/40 pb-1" style="color:cyan;"><span>سولفات:</span> <span class="text-slate-300" dir="ltr">< 250 mg/L</span></div>
+                        <div class="flex justify-between border-b border-slate-700/40 pb-1" style="color:cyan;"><span>کدورت (Turbidity):</span> <span class="text-slate-300" dir="ltr">< 5 NTU</span></div>
+                        <div class="flex justify-between border-b border-slate-700/40 pb-1" style="color:cyan;"><span>کلرآمین:</span> <span class="text-slate-300" dir="ltr">< 4 mg/L</span></div>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+        
+        <footer class="mt-10 pt-4 border-t border-slate-800 text-center text-[11px] text-slate-500 flex justify-between items-center">
+            <b style="color:white;">© ۲۰۲۶ - سامانه پایش تصفیه خانه صنعتی آب</<b></b>>
+            <p class="bg-slate-800 px-3 py-1 rounded-md text-slate-400 border border-slate-700/50">ورژن پایدار نسخه ۱.۱</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>

@@ -1,44 +1,63 @@
-# train_water_quality.py
-
 import pandas as pd
-import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import classification_report, accuracy_score
-from sklearn.impute import SimpleImputer
-import pickle
+from sklearn.preprocessing import StandardScaler
+from json import dumps
+# اگر این کتابخانه را ندارید، ابتدا در ترمینال بنویسید: pip install xgboost
+from xgboost import XGBClassifier 
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
+import joblib
 
-# 1. Load CSV
-df = pd.read_csv("water_potability.csv")
+def train_advanced_model():
+    print("🔄 در حال آموزش مدل پیشرفته برای حل مشکل سخت‌گیری مدل...")
+    
+    # ۱. بارگذاری دیتای تمیز شده
+    try:
+        df = pd.read_csv('cleaned_water_data.csv')
+    except FileNotFoundError:
+        print("❌ خطا: فایل 'cleaned_water_data.csv' یافت نشد.")
+        return
 
-# 2. Separate features and target
-X = df.drop("Potability", axis=1)
-y = df["Potability"]
+    X = df.drop('Potability', axis=1)
+    y = df['Potability']
+    
+    # ۲. تقسیم متعادل داده‌ها
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+    
+    # ۳. نرمال‌سازی
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    
+    # ۴. محاسبه نسبت کلاس صفر به یک برای متعادل‌سازی وزن‌ها
+    ratio = float(y_train.value_counts()[0] / y_train.value_counts()[1])
+    
+    # ۵. تعریف مدل هوشمندتر (XGBoost) با کنترل سخت‌گیری
+    model = XGBClassifier(
+        n_estimators=200,
+        max_depth=5,            # کاهش عمق برای جلوگیری از حفظ کردن داده‌ها
+        scale_pos_weight=ratio, # حل مشکل تمایل به کلاس صفر
+        learning_rate=0.05,
+        subsample=0.8,
+        colsample_bytree=0.8,
+        random_state=42
+    )
+    
+    model.fit(X_train_scaled, y_train)
+    print("مدل جدید با موفقیت جایگزین شد! 🤖")
+    
+    # ۶. ارزیابی مدل جدید
+    y_pred = model.predict(X_test_scaled)
+    
+    print("\n" + "="*40)
+    print(f"🔹 Accuracy (دقت کل):       {accuracy_score(y_test, y_pred)*100:.2f}%")
+    print(f"🔹 F1-Score (توازن):        {f1_score(y_test, y_pred)*100:.2f}%")
+    print(f"🔹 Recall (حساسیت):          {recall_score(y_test, y_pred)*100:.2f}%")
+    print("="*40)
+    
+    # ۷. ذخیره مدل جدید روی همان فایل‌های قبلی (تا فلسک بدون تغییر آپدیت شود)
+    joblib.dump(model, 'final_water_model.pkl')
+    joblib.dump(scaler, 'final_scaler.pkl')
+    print("💾 فایل‌های مدل پایش آنلاین بروزرسانی شدند.")
 
-# 3. Handle missing values (replace NaN with column mean)
-imputer = SimpleImputer(strategy="mean")
-X_imputed = imputer.fit_transform(X)
-
-# 4. Train/Test Split
-X_train, X_test, y_train, y_test = train_test_split(
-    X_imputed, y, test_size=0.2, random_state=42, stratify=y
-)
-
-# 5. Train Random Forest
-model = RandomForestClassifier(n_estimators=200, random_state=42)
-model.fit(X_train, y_train)
-
-# 6. Evaluate
-y_pred = model.predict(X_test)
-print("Accuracy:", accuracy_score(y_test, y_pred))
-print(classification_report(y_test, y_pred))
-
-# 7. Save Model & Imputer
-with open("water_quality_model.pkl", "wb") as f:
-    pickle.dump(model, f)
-
-with open("imputer.pkl", "wb") as f:
-    pickle.dump(imputer, f)
-
-print("✅ Model and imputer saved: water_quality_model.pkl, imputer.pkl")
-
+if __name__ == "__main__":
+    train_advanced_model()
