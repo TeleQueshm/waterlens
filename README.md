@@ -165,5 +165,3 @@ CUSTOM_THRESHOLD = 0.35
 * Raising this threshold forces maximum strictness for tight chemical margins.
 
 ```
----
-
